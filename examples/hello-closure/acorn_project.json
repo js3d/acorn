@@ -1,0 +1,5 @@
+{
+  "script": "hello.js",
+  "main": "examples.hello.start",
+  "built-script": "hello-compiled.js"
+}
