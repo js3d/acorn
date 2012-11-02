@@ -1,3 +1,4 @@
 [submodule "libs/closure-library"]
 	path = libs/closure-library
 	url = git://github.com/jarib/google-closure-library.git
+    ignore = untracked
