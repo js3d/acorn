@@ -1,5 +1,5 @@
 /**
- * @fileoverview <SOME SHIT HERE>.
+ * @fileoverview The Acorn entity class, comprising all in-game objects.
  * @author vorporeal@gmail.com (David Stern)
  */
 
