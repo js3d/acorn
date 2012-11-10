@@ -18,7 +18,7 @@ acorn.base.Behavior = function() {
 
 
 /**
- * Get the list of Components that an entity must have to perform this
+ * Get the list of Components that an Entity must have to perform this
  * Behavior.
  * @return {Array.<string>} The names of the required Components.
  */
