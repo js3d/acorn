@@ -9,7 +9,7 @@ goog.provide('acorn.base.Behavior');
 
 /**
  * The Behavior base class.  This provides the basic utilities that all
- * components need to initialize and manage themselves.
+ * behaviors need to initialize and manage themselves.
  * @constructor
  */
 acorn.base.Behavior = function() {
