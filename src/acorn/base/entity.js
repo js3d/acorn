@@ -7,6 +7,7 @@ goog.provide('acorn.base.Entity');
 
 goog.require('acorn.base.Behavior');
 goog.require('acorn.base.Component');
+goog.require('goog.array');
 
 
 
@@ -75,7 +76,7 @@ acorn.base.Entity.prototype.disableBehavior = function(behavior) {
  * @return {acorn.base.Entity} Return "this" to chain initialization calls.
  */
 acorn.base.Entity.prototype.attachComponents = function(components) {
-  
+  goog.array.forEach(components, this.attachComponent);
 };
 
 
