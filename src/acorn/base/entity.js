@@ -5,6 +5,9 @@
 
 goog.provide('acorn.base.Entity');
 
+goog.require('acorn.base.Behavior');
+goog.require('acorn.base.Component');
+
 
 
 /**
@@ -14,6 +17,13 @@ goog.provide('acorn.base.Entity');
  * @constructor
  */
 acorn.base.Entity = function() {
+
+  /**
+   * The Components attached to this Entity.
+   * @type {Object.<string, acorn.base.Component>}
+   * @private
+   */
+  this.components_ = {};
 
 };
 
@@ -40,11 +50,21 @@ acorn.base.Entity.prototype.attachBehaviors = function(behaviors) {
 
 
 /**
- * Attach a Behavior to this Entity.
- * @param {acorn.base.Behavior} behavior The Behavior to attach.
- * @return {acorn.base.Entity} Return "this" to chain initialization calls.
+ * Enable a Behavior for this Entity.
+ * @param {acorn.base.Behavior} behavior The Behavior to disable.
+ * @return {acorn.base.Entity} Returns "this" to chain calls.
  */
-acorn.base.Entity.prototype.attachBehavior = function(behavior) {
+acorn.base.Entity.prototype.enableBehavior = function(behavior) {
+
+};
+
+
+/**
+ * Disable a Behavior for this Entity.
+ * @param {acorn.base.Behavior} behavior The Behavior to disable.
+ * @return {acorn.base.Entity} Returns "this" to chain calls.
+ */
+acorn.base.Entity.prototype.disableBehavior = function(behavior) {
 
 };
 
@@ -55,7 +75,7 @@ acorn.base.Entity.prototype.attachBehavior = function(behavior) {
  * @return {acorn.base.Entity} Return "this" to chain initialization calls.
  */
 acorn.base.Entity.prototype.attachComponents = function(components) {
-
+  
 };
 
 
@@ -65,7 +85,10 @@ acorn.base.Entity.prototype.attachComponents = function(components) {
  * @return {acorn.base.Entity} Return "this" to chain initialization calls.
  */
 acorn.base.Entity.prototype.attachComponent = function(component) {
-
+  if (goog.DEBUG && this.hasComponent(component)) {
+    console.warn('Adding a component that already exists!');
+  }
+  this.components_[component.getComponentId()] = component;
 };
 
 
@@ -76,5 +99,5 @@ acorn.base.Entity.prototype.attachComponent = function(component) {
  *      otherwise.
  */
 acorn.base.Entity.prototype.hasComponent = function(componentType) {
-
+  return componentType.getComponentId() in this.components_;
 };
