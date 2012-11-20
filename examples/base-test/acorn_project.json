@@ -1,0 +1,5 @@
+{
+  "script": "base-test.js",
+  "main": "examples.basetest.start",
+  "built-script": "base-test-compiled.js"
+}
