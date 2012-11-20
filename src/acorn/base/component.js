@@ -14,6 +14,12 @@ goog.provide('acorn.base.Component');
  */
 acorn.base.Component = function() {
   if (goog.DEBUG) {
+    /**
+     * Whether or not this Component is valid.
+     * @type {boolean}
+     */
+    this.isValid = false;
+
     this.validate();
   }
 };
@@ -36,13 +42,13 @@ acorn.base.Component.initialize = function(component) {
  * @param {acorn.base.Component} component The Component object to validate.
  */
 acorn.base.Component.prototype.validate = function() {
-  var valid = true;
+  this.isValid = true;
   if (!goog.isFunction(this.getComponentId)) {
     console.warn('Component is missing getComponentId() function!');
-    valid = false;
+    this.isValid = false;
   }
 
-  if (!valid) {
+  if (!this.isValid) {
     console.warn('Component not valid!  Did you forget to call ' +
         'acorn.base.Component.initialize()?');
   }

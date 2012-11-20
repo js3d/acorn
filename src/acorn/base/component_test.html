@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>acorn.base.Component Unit Tests</title>
+<script src="../../../libs/closure-library/closure/goog/base.js"></script>
+<script src="../../deps.js"></script>
+<script>
+  goog.require('acorn.base.Component');
+  goog.require('goog.testing.jsunit');
+</script>
+</head>
+<body>
+<script>
+
+var ValidComponent = function() { goog.base(this); };
+goog.inherits(ValidComponent, acorn.base.Component);
+acorn.base.Component.initialize(ValidComponent);
+
+var InvalidComponent = function() { goog.base(this); };
+goog.inherits(InvalidComponent, acorn.base.Component);
+
+function testValidate() {
+  assertTrue((new ValidComponent()).isValid);
+  assertFalse((new InvalidComponent()).isValid);
+}
+</script>
+</body>
+</html>
