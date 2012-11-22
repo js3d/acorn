@@ -30,7 +30,10 @@ acorn.base.Component = function() {
  * @param {Object} component The component class to set up.
  */
 acorn.base.Component.initialize = function(component) {
-  component.prototype.getComponentId = goog.partial(goog.getUid, component);
+  // Add the getComponentId function to the class and its instances, as we will
+  // need to use it in both contexts.
+  component.getComponentId = goog.partial(goog.getUid, component);
+  component.prototype.getComponentId = component.getComponentId;
 };
 
 
@@ -43,7 +46,8 @@ acorn.base.Component.initialize = function(component) {
  */
 acorn.base.Component.prototype.validate = function() {
   this.isValid = true;
-  if (!goog.isFunction(this.getComponentId)) {
+  if (!goog.isFunction(this.getComponentId) ||
+      !goog.isFunction(this.constructor.getComponentId)) {
     console.warn('Component is missing getComponentId() function!');
     this.isValid = false;
   }
