@@ -76,7 +76,7 @@ acorn.base.Entity.prototype.disableBehavior = function(behavior) {
  * @return {acorn.base.Entity} Return "this" to chain initialization calls.
  */
 acorn.base.Entity.prototype.attachComponents = function(components) {
-  goog.array.forEach(components, this.attachComponent);
+  goog.array.forEach(components, this.attachComponent, this);
 };
 
 
@@ -95,10 +95,22 @@ acorn.base.Entity.prototype.attachComponent = function(component) {
 
 /**
  * Check if this Entity contains a given Component.
- * @param {string} componentType The type of the Component.
+ * @param {Object} componentType The type of the Component.
  * @return True if this Entity has a Component of the given type, false
  *      otherwise.
  */
 acorn.base.Entity.prototype.hasComponent = function(componentType) {
   return componentType.getComponentId() in this.components_;
+};
+
+
+/**
+ * Get a Component attached to this Entity.
+ * @param {Object} componentType The type of Component we want to get.
+ * @return The Component of the given type that is attached to this Entity;
+ *      null if the Entity doesn't have one.
+ */
+acorn.base.Entity.prototype.getComponent = function(componentType) {
+  return this.hasComponent(componentType) ?
+      this.components_[componentType.getComponentId()] : null;
 };

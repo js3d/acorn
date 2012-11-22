@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>acorn.base.Entity Unit Tests</title>
+<script src="../../../libs/closure-library/closure/goog/base.js"></script>
+<script src="../../deps.js"></script>
+<script>
+  goog.require('acorn.base.Entity');
+  goog.require('goog.testing.jsunit');
+</script>
+</head>
+<body>
+<script>
+
+var TestComponent1 = function() { goog.base(this); };
+goog.inherits(TestComponent1, acorn.base.Component);
+acorn.base.Component.initialize(TestComponent1);
+
+var TestComponent2 = function() { goog.base(this); };
+goog.inherits(TestComponent2, acorn.base.Component);
+acorn.base.Component.initialize(TestComponent2);
+
+function testAttachComponent() {
+  var entity = new acorn.base.Entity();
+  assertFalse(entity.hasComponent(TestComponent1));
+  entity.attachComponent(new TestComponent1());
+  assertTrue(entity.hasComponent(TestComponent1));
+}
+
+function testAttachComponents() {
+  var entity = new acorn.base.Entity();
+  entity.attachComponents([new TestComponent1(), new TestComponent2()]);
+  assertTrue(entity.hasComponent(TestComponent1));
+  assertTrue(entity.hasComponent(TestComponent2));
+}
+
+function testGetComponent() {
+  var entity = new acorn.base.Entity();
+  var component = new TestComponent1();
+  entity.attachComponent(component);
+  assertEquals(component, entity.getComponent(TestComponent1));
+}
+</script>
+</body>
+</html>
