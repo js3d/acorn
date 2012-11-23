@@ -72,17 +72,18 @@ acorn.base.Entity.prototype.disableBehavior = function(behavior) {
 
 /**
  * Attach a list of Components to this Entity.
- * @param {Array.<acorn.base.Component>} components The Components to attach.
+ * @param {!Array.<acorn.base.Component>} components The Components to attach.
  * @return {acorn.base.Entity} Return "this" to chain initialization calls.
  */
 acorn.base.Entity.prototype.attachComponents = function(components) {
   goog.array.forEach(components, this.attachComponent, this);
+  return this;
 };
 
 
 /**
  * Attach a Component to this Entity.
- * @param {acorn.base.Component} component The Component to attach.
+ * @param {!acorn.base.Component} component The Component to attach.
  * @return {acorn.base.Entity} Return "this" to chain initialization calls.
  */
 acorn.base.Entity.prototype.attachComponent = function(component) {
@@ -90,6 +91,7 @@ acorn.base.Entity.prototype.attachComponent = function(component) {
     console.warn('Adding a component that already exists!');
   }
   this.components_[component.getComponentId()] = component;
+  return this;
 };
 
 
@@ -107,8 +109,8 @@ acorn.base.Entity.prototype.hasComponent = function(componentType) {
 /**
  * Get a Component attached to this Entity.
  * @param {Object} componentType The type of Component we want to get.
- * @return The Component of the given type that is attached to this Entity;
- *      null if the Entity doesn't have one.
+ * @return {acorn.base.Component} The Component of the given type that is
+ *      attached to this Entity; null if the Entity doesn't have one.
  */
 acorn.base.Entity.prototype.getComponent = function(componentType) {
   return this.hasComponent(componentType) ?

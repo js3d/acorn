@@ -23,15 +23,33 @@ acorn.base.Component.initialize(TestComponent2);
 function testAttachComponent() {
   var entity = new acorn.base.Entity();
   assertFalse(entity.hasComponent(TestComponent1));
-  entity.attachComponent(new TestComponent1());
+  var ret = entity.attachComponent(new TestComponent1());
   assertTrue(entity.hasComponent(TestComponent1));
+  assertEquals(entity, ret);
+}
+
+function testAttachComponentReturnsThis() {
+  var entity = new acorn.base.Entity();
+  var ret = entity.attachComponent(new TestComponent1());
+  assertEquals(entity, ret);
 }
 
 function testAttachComponents() {
   var entity = new acorn.base.Entity();
-  entity.attachComponents([new TestComponent1(), new TestComponent2()]);
+  var ret = entity.attachComponents([new TestComponent1(), new TestComponent2()]);
   assertTrue(entity.hasComponent(TestComponent1));
   assertTrue(entity.hasComponent(TestComponent2));
+}
+
+function testAttachComponentsEmptyList() {
+  var entity = new acorn.base.Entity();
+  entity.attachComponents([]);
+}
+
+function testAttachComponentsReturnsThis() {
+  var entity = new acorn.base.Entity();
+  var ret = entity.attachComponents([new TestComponent1()]);
+  assertEquals(entity, ret);
 }
 
 function testGetComponent() {
