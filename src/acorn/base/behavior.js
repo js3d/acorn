@@ -18,13 +18,28 @@ acorn.base.Behavior = function() {
 
 
 /**
+ * @return {number} The ID of this behavior type.
+ */
+acorn.base.Behavior.getBehaviorId = function() {
+  throw new Error('did not initialize behavior');
+};
+
+
+/**
+ * @return {number} The ID of this behavior's type.
+ */
+acorn.base.Behavior.prototype.getBehaviorId = function() {
+  return this.constructor.getBehaviorId();
+};
+
+
+/**
  * Set up class-level properties of a Behavior.
  * @param {Object} behavior The Behavior class to set up.
  */
 acorn.base.Behavior.initialize = function(behavior) {
   goog.addSingletonGetter(behavior);
   behavior.getBehaviorId = goog.partial(goog.getUid, behavior);
-  behavior.prototype.getBehaviorId = behavior.getBehaviorId;
 };
 
 

@@ -6,6 +6,7 @@
 goog.provide('acorn.base.Entity');
 
 goog.require('acorn.base.Behavior');
+goog.require('acorn.base.BehaviorManager');
 goog.require('acorn.base.Component');
 goog.require('goog.array');
 
@@ -45,22 +46,16 @@ acorn.base.Entity.compare = function(a, b) {
 
 /**
  * Check if this Entity supports a given behavior.
- * @param {acorn.base.Behavior} behavior The behavior to check for support with.
+ * @param {!acorn.base.Behavior} behavior The behavior to check for support with.
  * @return {boolean} True if this Entity contains the components required by the given
  *      behavior, false otherwise.
  */
 acorn.base.Entity.prototype.supportsBehavior = function(behavior) {
-
-};
-
-
-/**
- * Attach a list of Behaviors to this Entity.
- * @param {Array.<acorn.base.Behavior>} behavior The Behaviors to attach.
- * @return {acorn.base.Entity} Return "this" to chain initialization calls.
- */
-acorn.base.Entity.prototype.attachBehaviors = function(behaviors) {
-
+  if (goog.isDefAndNotNull(behavior)) {
+    return goog.array.every(behavior.getRequiredComponents(), this.hasComponent,
+        this);
+  }
+  return false;
 };
 
 
@@ -70,7 +65,11 @@ acorn.base.Entity.prototype.attachBehaviors = function(behaviors) {
  * @return {acorn.base.Entity} Returns "this" to chain calls.
  */
 acorn.base.Entity.prototype.enableBehavior = function(behavior) {
-
+  if (this.supportsBehavior(behavior)) {
+    var behaviorManager = acorn.base.BehaviorManager.getInstance();
+    behaviorManager.enableFor(behavior, this);
+  }
+  return this;
 };
 
 
@@ -80,7 +79,9 @@ acorn.base.Entity.prototype.enableBehavior = function(behavior) {
  * @return {acorn.base.Entity} Returns "this" to chain calls.
  */
 acorn.base.Entity.prototype.disableBehavior = function(behavior) {
-
+  var behaviorManager = acorn.base.BehaviorManager.getInstance();
+  behaviorManager.disableFor(behavior, this);
+  return this;
 };
 
 
@@ -101,9 +102,6 @@ acorn.base.Entity.prototype.attachComponents = function(components) {
  * @return {acorn.base.Entity} Return "this" to chain initialization calls.
  */
 acorn.base.Entity.prototype.attachComponent = function(component) {
-  if (goog.DEBUG && this.hasComponent(component)) {
-    console.warn('Adding a component that already exists!');
-  }
   this.components_[component.getComponentId()] = component;
   return this;
 };
@@ -127,6 +125,6 @@ acorn.base.Entity.prototype.hasComponent = function(componentType) {
  *      attached to this Entity; null if the Entity doesn't have one.
  */
 acorn.base.Entity.prototype.getComponent = function(componentType) {
-  return this.hasComponent(componentType) ?
-      this.components_[componentType.getComponentId()] : null;
+  var c = this.components_[componentType.getComponentId()];
+  return c ? c : null;
 };

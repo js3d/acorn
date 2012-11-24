@@ -12,17 +12,36 @@
 <body>
 <script>
 
-var ValidComponent = function() { goog.base(this); };
-goog.inherits(ValidComponent, acorn.base.Component);
-acorn.base.Component.initialize(ValidComponent);
+var TestComponent = function() { goog.base(this); };
+goog.inherits(TestComponent, acorn.base.Component);
+acorn.base.Component.initialize(TestComponent);
 
-var InvalidComponent = function() { goog.base(this); };
-goog.inherits(InvalidComponent, acorn.base.Component);
+var UninitializedTestComponent = function() { goog.base(this); };
+goog.inherits(UninitializedTestComponent, acorn.base.Component);
 
-function testValidate() {
-  assertTrue((new ValidComponent()).isValid);
-  assertFalse((new InvalidComponent()).isValid);
+function testGetComponentId() {
+  assertEquals(1, TestComponent.getComponentId());
+  var component = new TestComponent();
+  assertEquals(1, component.getComponentId());
 }
+
+function testGetComponentIdUninitialized() {
+  assertThrows(function() {
+    UninitializedTestComponent.prototype.getComponentId()
+  });
+  var component = new UninitializedTestComponent();
+  assertThrows(function() {
+    component.getComponentId()
+  });
+}
+
+/*
+function testInitializeAcornBaseComponent() {
+  assertThrows(function() {
+    acorn.base.Component.initialize(acorn.base.Component);
+  });
+}
+*/
 </script>
 </body>
 </html>

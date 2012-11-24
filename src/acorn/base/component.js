@@ -13,15 +13,23 @@ goog.provide('acorn.base.Component');
  * @constructor
  */
 acorn.base.Component = function() {
-  if (goog.DEBUG) {
-    /**
-     * Whether or not this Component is valid.
-     * @type {boolean}
-     */
-    this.isValid = false;
 
-    this.validate();
-  }
+};
+
+
+/**
+ * @return {number} The ID of this component type.
+ */
+acorn.base.Component.getComponentId = function() {
+  throw new Error('did not initialize component');
+};
+
+
+/**
+ * @return {number} The ID of this component's type.
+ */
+acorn.base.Component.prototype.getComponentId = function() {
+  return this.constructor.getComponentId();
 };
 
 
@@ -30,30 +38,10 @@ acorn.base.Component = function() {
  * @param {Object} component The component class to set up.
  */
 acorn.base.Component.initialize = function(component) {
-  // Add the getComponentId function to the class and its instances, as we will
-  // need to use it in both contexts.
+  if (goog.DEBUG) {
+    if (component == acorn.base.Component) {
+      throw new Error("can't initialize Component base class");
+    }
+  }
   component.getComponentId = goog.partial(goog.getUid, component);
-  component.prototype.getComponentId = component.getComponentId;
-};
-
-
-/**
- * Validate that a Component has been properly initialized.
- *
- * This function will print warnings to the console for each validation check
- * that fails.
- * @param {acorn.base.Component} component The Component object to validate.
- */
-acorn.base.Component.prototype.validate = function() {
-  this.isValid = true;
-  if (!goog.isFunction(this.getComponentId) ||
-      !goog.isFunction(this.constructor.getComponentId)) {
-    console.warn('Component is missing getComponentId() function!');
-    this.isValid = false;
-  }
-
-  if (!this.isValid) {
-    console.warn('Component not valid!  Did you forget to call ' +
-        'acorn.base.Component.initialize()?');
-  }
 };
