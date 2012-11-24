@@ -12,33 +12,33 @@
 <body>
 <script>
 
-var TestComponent1 = function() { goog.base(this); };
-goog.inherits(TestComponent1, acorn.base.Component);
-acorn.base.Component.initialize(TestComponent1);
+var mockComponent1 = {
+  getComponentId: function() { return '1'; }
+};
 
-var TestComponent2 = function() { goog.base(this); };
-goog.inherits(TestComponent2, acorn.base.Component);
-acorn.base.Component.initialize(TestComponent2);
+var mockComponent2 = {
+  getComponentId: function() { return '2'; }
+};
 
 function testAttachComponent() {
   var entity = new acorn.base.Entity();
-  assertFalse(entity.hasComponent(TestComponent1));
-  var ret = entity.attachComponent(new TestComponent1());
-  assertTrue(entity.hasComponent(TestComponent1));
+  assertFalse(entity.hasComponent(mockComponent1));
+  var ret = entity.attachComponent(mockComponent1);
+  assertTrue(entity.hasComponent(mockComponent1));
   assertEquals(entity, ret);
 }
 
 function testAttachComponentReturnsThis() {
   var entity = new acorn.base.Entity();
-  var ret = entity.attachComponent(new TestComponent1());
+  var ret = entity.attachComponent(mockComponent1);
   assertEquals(entity, ret);
 }
 
 function testAttachComponents() {
   var entity = new acorn.base.Entity();
-  var ret = entity.attachComponents([new TestComponent1(), new TestComponent2()]);
-  assertTrue(entity.hasComponent(TestComponent1));
-  assertTrue(entity.hasComponent(TestComponent2));
+  var ret = entity.attachComponents([mockComponent1, mockComponent2]);
+  assertTrue(entity.hasComponent(mockComponent1));
+  assertTrue(entity.hasComponent(mockComponent2));
 }
 
 function testAttachComponentsEmptyList() {
@@ -48,15 +48,15 @@ function testAttachComponentsEmptyList() {
 
 function testAttachComponentsReturnsThis() {
   var entity = new acorn.base.Entity();
-  var ret = entity.attachComponents([new TestComponent1()]);
+  var ret = entity.attachComponents([mockComponent1]);
   assertEquals(entity, ret);
 }
 
 function testGetComponent() {
   var entity = new acorn.base.Entity();
-  var component = new TestComponent1();
+  var component = mockComponent1;
   entity.attachComponent(component);
-  assertEquals(component, entity.getComponent(TestComponent1));
+  assertEquals(component, entity.getComponent(mockComponent1));
 }
 </script>
 </body>
