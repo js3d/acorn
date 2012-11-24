@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>acorn.base.BehaviorManager Unit Tests</title>
+<script src="../../../libs/closure-library/closure/goog/base.js"></script>
+<script src="../../deps.js"></script>
+<script>
+  goog.require('acorn.base.BehaviorManager');
+  goog.require('goog.testing.jsunit');
+</script>
+</head>
+<body>
+<script>
+
+var BEHAVIOR = {
+  getBehaviorId: function() { return 0; }
+};
+
+var ENTITY1 = { };
+goog.getUid(ENTITY1);
+
+var ENTITY2 = { };
+goog.getUid(ENTITY2);
+
+var behaviorManager;
+
+function setUp() {
+  behaviorManager = new acorn.base.BehaviorManager();
+}
+
+function testIsEnabledForWithNeverEnabledBehavior() {
+  assertFalse(behaviorManager.isEnabledFor(BEHAVIOR, ENTITY1));
+}
+
+function testEnableForWithUndefinedBehavior() {
+  behaviorManager.enableFor(undefined, ENTITY1);
+}
+
+function testDisableForWithUndefinedBehavior() {
+  behaviorManager.disableFor(undefined, ENTITY1);
+}
+
+function testEnableForWithUndefinedEntity() {
+  behaviorManager.enableFor(BEHAVIOR, undefined);
+}
+
+function testDisableForWithUndefinedEntity() {
+  behaviorManager.disableFor(BEHAVIOR, undefined);
+}
+
+function testEnableFor() {
+  behaviorManager.enableFor(BEHAVIOR, ENTITY1);
+  var id = BEHAVIOR.getBehaviorId();
+  assertTrue(id in behaviorManager.behaviorEntityMap_);
+  var entityList = behaviorManager.behaviorEntityMap_[id];
+  assertTrue(goog.isArray(entityList));
+  assertEquals(1, entityList.length);
+  assertEquals(ENTITY1, entityList[0]);
+}
+
+function testDisableForWithNeverEnabledBehavior() {
+  behaviorManager.disableFor(BEHAVIOR, ENTITY1);
+}
+
+function testDisableForAfterEnableFor() {
+  behaviorManager.enableFor(BEHAVIOR, ENTITY1);
+  behaviorManager.disableFor(BEHAVIOR, ENTITY1);
+  var entityList = behaviorManager.behaviorEntityMap_[BEHAVIOR.getBehaviorId()];
+  assertEquals(0, entityList.length);
+}
+
+</script>
+</body>
+</html>

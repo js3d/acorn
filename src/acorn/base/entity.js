@@ -30,6 +30,20 @@ acorn.base.Entity = function() {
 
 
 /**
+ * Compare the IDs of two Entities.
+ * @param {acorn.base.Entity} a The first Entity.
+ * @param {acorn.base.Entity} b The second Entity.
+ * @return {number} 1 if a>b, -1 if a<b, 0 otherwise.
+ */
+acorn.base.Entity.compare = function(a, b) {
+  var aId = goog.getUid(a);
+  var bId = goog.getUid(b);
+
+  return aId > bId ? 1 : aId < bId ? -1 : 0;
+};
+
+
+/**
  * Check if this Entity supports a given behavior.
  * @param {acorn.base.Behavior} behavior The behavior to check for support with.
  * @return {boolean} True if this Entity contains the components required by the given
