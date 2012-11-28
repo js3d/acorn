@@ -36,17 +36,17 @@ acorn.game.Game = function() {
  * TODO (vorporeal): Review polyfill on http://bit.ly/fxq7EY
  * @private
  */
-acorn.game.Game.prototype.waitForFrame_ = goog.bind((function() {
-  return  window.requestAnimationFrame       || 
-          window.webkitRequestAnimationFrame || 
-          window.mozRequestAnimationFrame    || 
-          window.oRequestAnimationFrame      || 
-          window.msRequestAnimationFrame     || 
-          function(callback){
-            // TODO (vorporeal): Don't hardcode 60fps.
-            window.setTimeout(callback, 1000 / 60);
-          };
-})(), window);
+acorn.game.Game.prototype.waitForFrame_ = (function() {
+  var rAF = window.requestAnimationFrame       || 
+            window.webkitRequestAnimationFrame || 
+            window.mozRequestAnimationFrame    || 
+            window.oRequestAnimationFrame      || 
+            window.msRequestAnimationFrame;
+  return rAF ? goog.bind(rAF, window) : function (callback) {
+    // TODO (vorporeal): Don't hardcode 60fps.
+    window.setTimeout(callback, 1000 / 60);
+  };
+})();
 
 
 /**
