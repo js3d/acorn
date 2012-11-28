@@ -42,8 +42,11 @@ acorn.game.Timer.prototype.beginFrame = function() {
  *    calculate time differences.
  */
 acorn.game.Timer.now = (function() {
-  var hpNow = window.performance.now ||
-              window.performance.webkitNow;
+  var hpNow = window.performance.now       ||
+              window.performance.webkitNow ||
+              window.performance.mozNow    ||
+              window.performance.oNow      ||
+              window.performance.msNow;
   return hpNow ? goog.bind(hpNow, window.performance) : goog.now;
 })();
 
