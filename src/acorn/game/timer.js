@@ -17,7 +17,7 @@ acorn.game.Timer = function() {
    * The time at which this frame started.
    * @type {number}
    */
-  this.now = goog.now();
+  this.now = acorn.game.Timer.now();
 
   /**
    * The time at which the last frame started.
@@ -32,8 +32,20 @@ acorn.game.Timer = function() {
  */
 acorn.game.Timer.prototype.beginFrame = function() {
   this.then = this.now;
-  this.now = goog.now();
+  this.now = acorn.game.Timer.now();
 };
+
+
+/**
+ * Get the current "time".  Uses a high-precision accessor, if available.
+ * NOTE: This does not return wall time, just a number that can be used to
+ *    calculate time differences.
+ */
+acorn.game.Timer.now = (function() {
+  var hpNow = window.performance.now ||
+              window.performance.webkitNow;
+  return hpNow ? goog.bind(hpNow, window.performance) : goog.now;
+})();
 
 
 /**
