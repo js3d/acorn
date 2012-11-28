@@ -3,4 +3,6 @@
 goog.addDependency('../../../../src/acorn/base/behavior.js', ['acorn.base.Behavior'], []);
 goog.addDependency('../../../../src/acorn/base/behaviormanager.js', ['acorn.base.BehaviorManager'], ['acorn.base.Behavior', 'acorn.base.Entity', 'goog.array']);
 goog.addDependency('../../../../src/acorn/base/component.js', ['acorn.base.Component'], []);
-goog.addDependency('../../../../src/acorn/base/entity.js', ['acorn.base.Entity'], ['acorn.base.Behavior', 'acorn.base.Component', 'goog.array']);
+goog.addDependency('../../../../src/acorn/base/entity.js', ['acorn.base.Entity'], ['acorn.base.Behavior', 'acorn.base.BehaviorManager', 'acorn.base.Component', 'goog.array']);
+goog.addDependency('../../../../src/acorn/game/game.js', ['acorn.game.Game'], ['acorn.game.Timer']);
+goog.addDependency('../../../../src/acorn/game/timer.js', ['acorn.game.Timer'], []);
