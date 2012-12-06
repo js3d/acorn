@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="urf-8" />
+<title>Canvas Test</title>
+<style>
+    #render_canvas {
+        background: #000;
+        display: block;
+        margin: 5px auto;
+    }
+    #enter_button {
+        margin: 5px auto;
+        display: block;
+    }
+</style>
+<script>
+window.onload = function(){
+    var canvas = document.getElementById("render_canvas"),
+        gl,
+        button = document.getElementById("enter_button");
+    try {
+        gl = canvas.getContext("webgl");
+    } catch (e) {
+        console.log(e);
+    };
+    button.addEventListener("click", function(){
+        canvas.webkitRequestFullscreen();
+        canvas.webkitRequestPointerLock(); 
+    });
+    document.body.addEventListener('mousemove', function(e) {
+        if (document.webkitPointerLockElement === canvas) {
+            var movementX = e.movementX || e.webkitMovementX;
+            var movementY = e.movementY || e.webkitMovementY;
+            console.log(movementX, movementY);
+        };
+    });
+};
+</script>
+</head>
+<body>
+    <canvas id="render_canvas" width="640" height="480"></canvas>
+    <button id="enter_button">Enter the canvas</button>
+</body>
+</html>
