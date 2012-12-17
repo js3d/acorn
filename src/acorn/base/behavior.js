@@ -97,11 +97,11 @@ acorn.base.Behavior.prototype.shouldExecuteThisTick = function() {
  */
 acorn.base.Behavior.prototype.execute = function() {
   var bm = acorn.base.BehaviorManager.getInstance();
-  goog.array.forEach(bm.getEntitiesWith(this), function(entity) {
-    if (this.shouldExecuteThisTick()) {
-      this.apply(entity);
-    }
-  }, this);
+  if (this.shouldExecuteThisTick()) {
+    goog.array.forEach(bm.getEntitiesWith(this), function(entity) {
+        this.apply(entity);
+    }, this);
+  }
 };
 
 
