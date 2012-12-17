@@ -99,7 +99,7 @@ acorn.base.BehaviorManager.prototype.disableFor = function(behavior, entities) {
 
 
 /**
- * Get the list of Entities which have a given Behaivor enabled.
+ * Get the list of Entities which have a given Behavior enabled.
  * @param {acorn.base.Behavior} behavior The Behavior to get the list for.
  * @return {Array.<acorn.base.Entity>}
  */
