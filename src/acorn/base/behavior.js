@@ -96,7 +96,12 @@ acorn.base.Behavior.prototype.shouldExecuteThisTick = function() {
  * Execute this Behavior on all Entities that have it.
  */
 acorn.base.Behavior.prototype.execute = function() {
-  //goog.array.forEach(<ENTITY LIST>, this.apply, this);
+  var bm = acorn.base.BehaviorManager.getInstance();
+  if (this.shouldExecuteThisTick()) {
+    goog.array.forEach(bm.getEntitiesWith(this), function(entity) {
+        this.apply(entity);
+    }, this);
+  }
 };
 
 
