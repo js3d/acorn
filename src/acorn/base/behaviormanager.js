@@ -19,7 +19,7 @@ goog.require('goog.array');
 acorn.base.BehaviorManager = function() {
 
   /**
-   * The Behavior to Entity list mapping.  All 
+   * The Behavior to Entity list mapping.
    * @type {{acorn.base.Behavior: Array.<acorn.base.Entity>}}
    * @private
    */
@@ -85,6 +85,7 @@ acorn.base.BehaviorManager.prototype.enableFor =
   }
 };
 
+
 /**
  * Disables a given Behavior for one or more given Entity instances.
  * This is syntatic sugar - it just calls enableFor().
@@ -94,4 +95,14 @@ acorn.base.BehaviorManager.prototype.enableFor =
  */
 acorn.base.BehaviorManager.prototype.disableFor = function(behavior, entities) {
   this.enableFor(behavior, entities, false);
+};
+
+
+/**
+ * Get the list of Entities which have a given Behavior enabled.
+ * @param {acorn.base.Behavior} behavior The Behavior to get the list for.
+ * @return {Array.<acorn.base.Entity>}
+ */
+acorn.base.BehaviorManager.prototype.getEntitiesWith(behavior) {
+  return this.behaviorEntityMap_[behavior.getBehaviorId()];
 };
