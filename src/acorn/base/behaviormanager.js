@@ -19,7 +19,7 @@ goog.require('goog.array');
 acorn.base.BehaviorManager = function() {
 
   /**
-   * The Behavior to Entity list mapping.  All 
+   * The Behavior to Entity list mapping.
    * @type {{acorn.base.Behavior: Array.<acorn.base.Entity>}}
    * @private
    */
