@@ -6,42 +6,27 @@
 <script src="../../deps.js"></script>
 <script>
   goog.require('acorn.base.Component');
+  goog.require('acorn.base.TestComponent');
   goog.require('goog.testing.jsunit');
 </script>
 </head>
 <body>
 <script>
 
-var TestComponent = function() { goog.base(this); };
-goog.inherits(TestComponent, acorn.base.Component);
-acorn.base.Component.initialize(TestComponent);
+var component;
 
-var UninitializedTestComponent = function() { goog.base(this); };
-goog.inherits(UninitializedTestComponent, acorn.base.Component);
+
+function setUp() {
+  component = new acorn.base.TestComponent();
+}
 
 function testGetComponentId() {
-  assertEquals(1, TestComponent.getComponentId());
-  var component = new TestComponent();
   assertEquals(1, component.getComponentId());
 }
 
-function testGetComponentIdUninitialized() {
-  assertThrows(function() {
-    UninitializedTestComponent.prototype.getComponentId()
-  });
-  var component = new UninitializedTestComponent();
-  assertThrows(function() {
-    component.getComponentId()
-  });
+function testGetShortName() {
+  assertEquals(acorn.base.TestComponent.SHORT_NAME, component.getShortName());
 }
-
-/*
-function testInitializeAcornBaseComponent() {
-  assertThrows(function() {
-    acorn.base.Component.initialize(acorn.base.Component);
-  });
-}
-*/
 </script>
 </body>
 </html>

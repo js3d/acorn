@@ -5,166 +5,135 @@
 <script src="../../../libs/closure-library/closure/goog/base.js"></script>
 <script src="../../deps.js"></script>
 <script>
+  goog.require('acorn.base.Behavior');
+  goog.require('acorn.base.Component');
   goog.require('acorn.base.Entity');
   goog.require('goog.testing.jsunit');
-  goog.require('goog.testing.StrictMock');
+  goog.require('goog.testing.MockControl');
 </script>
 </head>
 <body>
 <script>
 
-var mockBehavior, mockComponent;
+var entity,
+    mockControl,
+    mockBehavior,
+    mockComponent1,
+    mockComponent2;
 
 function setUpPage() {
-  mockBehavior = new goog.testing.StrictMock(new acorn.base.Behavior());
-  mockComponent = new goog.testing.StrictMock(new acorn.base.Component());
+  mockControl = new goog.testing.MockControl();
+  mockBehavior = mockControl.createStrictMock(new acorn.base.Behavior());
+  mockComponent1 = mockControl.createStrictMock(new acorn.base.Component());
+  mockComponent2 = mockControl.createStrictMock(new acorn.base.Component());
 }
 
 function setUp() {
-  mockBehavior.$reset();
-  mockComponent.$reset();
+  entity = new acorn.base.Entity();
+
+  mockControl.$resetAll();
+  mockComponent1.getComponentId().$returns(1).$anyTimes();
+  mockComponent2.getComponentId().$returns(2).$anyTimes();
 }
 
 function testSupportsBehaviorReturnsTrue() {
-  mockBehavior.getRequiredComponents().$returns([mockComponent]);
-  mockComponent.getComponentId().$returns(1).$times(2);
+  mockBehavior.getRequiredComponents().$returns([mockComponent1]);
 
-  mockBehavior.$replay();
-  mockComponent.$replay();
+  mockControl.$replayAll();
 
-  var entity = new acorn.base.Entity();
-  entity.attachComponent(mockComponent);
+  entity.attachComponent(mockComponent1);
   assertTrue(entity.supportsBehavior(mockBehavior));
 
   mockBehavior.$verify();
-  mockComponent.$verify();
 }
 
 function testSupportsBehaviorReturnsFalse() {
-  mockBehavior.getRequiredComponents().$returns([mockComponent,
-      new goog.testing.StrictMock(new acorn.base.Component())]);
-  mockComponent.getComponentId().$returns(1).$times(2);
+  mockBehavior.getRequiredComponents().$returns(
+      [mockComponent1, mockComponent2]);
 
-  mockBehavior.$replay();
-  mockComponent.$replay();
+  mockControl.$replayAll();
 
-  var entity = new acorn.base.Entity();
-  entity.attachComponent(mockComponent);
+  entity.attachComponent(mockComponent1);
   assertFalse(entity.supportsBehavior(mockBehavior));
 
-  mockBehavior.$verify();
-  mockComponent.$verify();
+  mockControl.$verifyAll();
 }
 
 function testSupportsBehaviorHandlesUndefined() {
-  var entity = new acorn.base.Entity();
   assertFalse(entity.supportsBehavior(undefined));
 }
 
 function testEnableBehavior() {
-  var otherMockComponent = new goog.testing.StrictMock(
-      new acorn.base.Component());
-  mockComponent.getComponentId().$returns(1).$times(2);
-  otherMockComponent.getComponentId().$returns(2).$times(2);
   mockBehavior.getRequiredComponents().$returns(
-      [mockComponent, otherMockComponent]);
+      [mockComponent1, mockComponent2]);
   mockBehavior.getBehaviorId().$returns(1);
 
-  mockComponent.$replay();
-  otherMockComponent.$replay();
-  mockBehavior.$replay();
+  mockControl.$replayAll();
 
-  var entity = new acorn.base.Entity();
-  entity.attachComponent(mockComponent);
-  entity.attachComponent(otherMockComponent);
+  entity.attachComponent(mockComponent1);
+  entity.attachComponent(mockComponent2);
   entity.enableBehavior(mockBehavior);
 
-  mockComponent.$verify();
-  otherMockComponent.$verify();
-  mockBehavior.$verify();
+  mockControl.$verifyAll();
 }
 
 function testAttachComponent() {
-  mockComponent.getComponentId().$returns(1).$times(3);
+  mockControl.$replayAll();
 
-  mockComponent.$replay();
+  assertFalse(entity.hasComponent(mockComponent1));
+  entity.attachComponent(mockComponent1);
+  assertTrue(entity.hasComponent(mockComponent1));
 
-  var entity = new acorn.base.Entity();
-  assertFalse(entity.hasComponent(mockComponent));
-  entity.attachComponent(mockComponent);
-  assertTrue(entity.hasComponent(mockComponent));
-
-  mockComponent.$verify();
+  mockControl.$verifyAll();
 }
 
 function testAttachComponentReturnsThis() {
-  mockComponent.getComponentId().$returns(1);
+  mockControl.$replayAll();
 
-  mockComponent.$replay();
-
-  var entity = new acorn.base.Entity();
-  var ret = entity.attachComponent(mockComponent);
+  var ret = entity.attachComponent(mockComponent1);
   assertEquals(entity, ret);
 
-  mockComponent.$verify();
+  mockControl.$verifyAll();
 }
 
 function testAttachComponents() {
-  var otherMockComponent = new goog.testing.StrictMock(
-      new acorn.base.Component());
-  mockComponent.getComponentId().$returns(1).$times(2);
-  otherMockComponent.getComponentId().$returns(2).$times(2);
+  mockControl.$replayAll();
 
-  mockComponent.$replay();
-  otherMockComponent.$replay();
+  entity.attachComponents([mockComponent1, mockComponent2]);
+  assertTrue(entity.hasComponent(mockComponent1));
+  assertTrue(entity.hasComponent(mockComponent2));
 
-  var entity = new acorn.base.Entity();
-  entity.attachComponents([mockComponent, otherMockComponent]);
-  assertTrue(entity.hasComponent(mockComponent));
-  assertTrue(entity.hasComponent(otherMockComponent));
-
-  mockComponent.$verify();
-  otherMockComponent.$verify();
+  mockControl.$verifyAll();
 }
 
 function testAttachComponentsEmptyList() {
-  var entity = new acorn.base.Entity();
   entity.attachComponents([]);
 }
 
 function testAttachComponentsReturnsThis() {
-  mockComponent.getComponentId().$returns(1);
+  mockControl.$replayAll();
 
-  mockComponent.$replay();
-
-  var entity = new acorn.base.Entity();
-  var ret = entity.attachComponents([mockComponent]);
+  var ret = entity.attachComponents([mockComponent1]);
   assertEquals(entity, ret);
 
-  mockComponent.$verify();
+  mockControl.$verifyAll();
 }
 
 function testGetComponent() { 
-  mockComponent.getComponentId().$returns(1).$times(2);
+  mockControl.$replayAll();
 
-  mockComponent.$replay();
+  entity.attachComponent(mockComponent1);
+  assertEquals(mockComponent1, entity.getComponent(mockComponent1));
 
-  var entity = new acorn.base.Entity();
-  var ret = entity.attachComponent(mockComponent);
-  assertEquals(mockComponent, entity.getComponent(mockComponent));
-
-  mockComponent.$verify();
+  mockControl.$verifyAll();
 }
 
 function testGetComponentReturnsNull() {
-  mockComponent.getComponentId().$returns(1);
+  mockControl.$replayAll();
 
-  mockComponent.$replay();
+  assertEquals(null, entity.getComponent(mockComponent1));
 
-  var entity = new acorn.base.Entity();
-  assertEquals(null, entity.getComponent(mockComponent));
-
-  mockComponent.$verify();
+  mockControl.$verifyAll();
 }
 </script>
 </body>
