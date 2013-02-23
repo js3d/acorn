@@ -103,6 +103,6 @@ acorn.base.BehaviorManager.prototype.disableFor = function(behavior, entities) {
  * @param {acorn.base.Behavior} behavior The Behavior to get the list for.
  * @return {Array.<acorn.base.Entity>}
  */
-acorn.base.BehaviorManager.prototype.getEntitiesWith(behavior) {
+acorn.base.BehaviorManager.prototype.getEntitiesWith = function(behavior) {
   return this.behaviorEntityMap_[behavior.getBehaviorId()];
 };
