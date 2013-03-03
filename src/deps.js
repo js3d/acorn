@@ -2,7 +2,12 @@
 // Please do not edit.
 goog.addDependency('../../../../src/acorn/base/behavior.js', ['acorn.base.Behavior'], []);
 goog.addDependency('../../../../src/acorn/base/behaviormanager.js', ['acorn.base.BehaviorManager'], ['acorn.base.Behavior', 'acorn.base.Entity', 'goog.array']);
-goog.addDependency('../../../../src/acorn/base/component.js', ['acorn.base.Component'], []);
+goog.addDependency('../../../../src/acorn/base/component.js', ['acorn.base.Component', 'acorn.base.TestComponent'], []);
 goog.addDependency('../../../../src/acorn/base/entity.js', ['acorn.base.Entity'], ['acorn.base.Behavior', 'acorn.base.BehaviorManager', 'acorn.base.Component', 'goog.array']);
+goog.addDependency('../../../../src/acorn/data/jsonresource.js', ['acorn.data.JsonResource'], ['acorn.data.Resource', 'goog.net.XhrIo']);
+goog.addDependency('../../../../src/acorn/data/resource.js', ['acorn.data.Resource'], ['goog.async.Deferred']);
+goog.addDependency('../../../../src/acorn/data/resourcegroup.js', ['acorn.data.ResourceGroup'], ['acorn.util.Trackable', 'goog.async.DeferredList']);
+goog.addDependency('../../../../src/acorn/data/textresource.js', ['acorn.data.TextResource'], ['acorn.data.Resource', 'goog.net.XhrIo']);
 goog.addDependency('../../../../src/acorn/game/game.js', ['acorn.game.Game'], ['acorn.game.Timer']);
 goog.addDependency('../../../../src/acorn/game/timer.js', ['acorn.game.Timer'], []);
+goog.addDependency('../../../../src/acorn/util/trackable.js', ['acorn.util.Trackable'], []);

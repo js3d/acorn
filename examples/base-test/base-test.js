@@ -7,6 +7,9 @@
 goog.provide('examples.basetest.start');
 
 goog.require('acorn.base.Entity');
+goog.require('acorn.data.JsonResource');
+goog.require('acorn.data.ResourceGroup');
+goog.require('acorn.data.TextResource');
 
 
 /**
